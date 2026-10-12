@@ -3,7 +3,7 @@
 // API CONFIGURATION
 // ==========================================
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://ai-medication-support.onrender.com";
 
 console.log("script.js loaded successfully!");
 
