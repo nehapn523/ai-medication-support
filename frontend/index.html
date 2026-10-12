@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI-Based Personalized Medication Support System</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="main-header">
+        <h1>AI-Based Personalized Medication Support</h1>
+        <p>Machine-learning analysis for academic demonstration</p>
+    </header>
+
+    <main class="container">
+
+        <!-- IMPORTANT NOTICE -->
+        <section class="notice">
+            <h3>Important Notice</h3>
+            <p>
+                This application provides experimental predictions from a
+                dataset. It does not prescribe medication or establish
+                clinically safe dosages or treatment durations. Do not use
+                its predictions to start, stop, or change treatment.
+            </p>
+        </section>
+
+        <!-- PATIENT REGISTRATION -->
+        <section class="card">
+            <h2>1. Patient Details</h2>
+
+            <form id="patientForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="name">Patient Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            required
+                            maxlength="100"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input
+                            type="number"
+                            id="age"
+                            min="0"
+                            max="120"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" required>
+                            <option value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input
+                            type="number"
+                            id="weight"
+                            min="0.1"
+                            max="500"
+                            step="0.1"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="height">Height (cm)</label>
+                        <input
+                            type="number"
+                            id="height"
+                            min="0.1"
+                            max="300"
+                            step="0.1"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bmi">Calculated BMI</label>
+                        <input
+                            type="text"
+                            id="bmi"
+                            readonly
+                            placeholder="Calculated automatically"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="conditions">Chronic Conditions</label>
+                        <input
+                            type="text"
+                            id="conditions"
+                            placeholder="Enter conditions or Unknown"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="allergies">Drug Allergies</label>
+                        <input
+                            type="text"
+                            id="allergies"
+                            placeholder="Enter allergies or Unknown"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="genetic">Genetic Disorders</label>
+                        <input
+                            type="text"
+                            id="genetic"
+                            placeholder="Enter details or Unknown"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="diagnosis">Diagnosis</label>
+                        <input
+                            type="text"
+                            id="diagnosis"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="symptoms">Symptoms</label>
+                        <textarea
+                            id="symptoms"
+                            rows="3"
+                            required
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <button type="submit" id="registerButton">
+                    Register Patient
+                </button>
+
+            </form>
+
+            <div id="registrationMessage" class="message"></div>
+        </section>
+
+        <!-- ANALYSIS -->
+        <section class="card">
+            <h2>2. Run Model Analysis</h2>
+
+            <p>
+                Register a patient first. The system will estimate the
+                medication, dosage, and duration from the dataset.
+            </p>
+
+            <form id="analysisForm">
+
+                <div class="form-group">
+                    <label for="patientId">Patient ID</label>
+                    <input
+                        type="number"
+                        id="patientId"
+                        min="1"
+                        required
+                        placeholder="Enter registered patient ID"
+                    >
+                </div>
+
+                <button type="submit" id="analyzeButton">
+                    Run Analysis
+                </button>
+
+            </form>
+
+            <div id="analysisMessage" class="message"></div>
+        </section>
+
+        <!-- RESULTS -->
+        <section class="card" id="resultsSection" hidden>
+            <h2>3. Model Results</h2>
+
+            <div class="results-grid">
+
+                <div class="result-item">
+                    <span>Calculated BMI</span>
+                    <strong id="resultBMI">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Predicted Medication</span>
+                    <strong id="resultMedication">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Medication Model Confidence</span>
+                    <strong id="resultMedicationConfidence">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Experimental Dosage Estimate</span>
+                    <strong id="resultDosage">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Experimental Duration Estimate</span>
+                    <strong id="resultDuration">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Predicted Treatment Effectiveness</span>
+                    <strong id="resultEffectiveness">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Effectiveness Model Confidence</span>
+                    <strong id="resultEffectivenessConfidence">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Predicted Adverse-Reaction Risk</span>
+                    <strong id="resultRisk">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <span>Adverse-Reaction Probability</span>
+                    <strong id="resultProbability">—</strong>
+                </div>
+
+            </div>
+
+            <div class="result-block">
+                <h3>Allergy Review</h3>
+                <p id="resultSafety">—</p>
+                <ul id="safetyAlerts"></ul>
+            </div>
+
+            <div class="result-block">
+                <h3>Model Feature Importance</h3>
+                <ul id="explanationList"></ul>
+                <p id="explanationNote"></p>
+            </div>
+
+            <div class="notice">
+                <h3>Limitations</h3>
+                <p id="safetyNote">—</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Academic Project | AIML</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
